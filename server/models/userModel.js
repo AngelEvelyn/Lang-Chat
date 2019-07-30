@@ -11,7 +11,7 @@ const CREATE_TABLE= `CREATE TABLE IF NOT EXISTS "user"(
   registration_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );`;
 
-const INSERT_USER = `INSERT INTO user (username, token, email, picture_url, about_me) VALUES ($1, $2, $3, $4, $5)`
+const INSERT_USER = `INSERT INTO "user" (username, token, email, picture_url, about_me) VALUES ($1, $2, $3, $4, $5)`
  
 pool.query(CREATE_TABLE, (err, result) => { 
   if (err) console.log('error creating user table:', err);
@@ -22,20 +22,12 @@ const model = {
   createUser({ username, token, email, pictureUrl, aboutMe }) {
     return new Promise((resolve, reject) => {
       pool.query(INSERT_USER, [username, token, email, pictureUrl, aboutMe], (err,result) => {
-        if (err) {
-          console.error('error on creating user:',err);
-          return reject(err);
-        }
-        else {
-          console.log('user has been created in table');
-          return resolve(result);
-        }
-      });
+        if (err) return reject(err);
+        return resolve(result);
+      })
     })
   },
-  
 
-
-};
+}
 
 module.exports = model;
