@@ -1,10 +1,10 @@
 import React from 'react';
-import Navbar from './Navbar';
+import Home from './Containers/Home';
 
 function App() {
   return (
     <div>
-      <Navbar />
+      <Home />
     </div>
   );
 }
