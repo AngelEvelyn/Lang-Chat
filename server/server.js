@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const apiRouter = require('./routers/apiRouter');
 const { PORT } = process.env;
 const app = express();
+const pool = require('./pool')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
