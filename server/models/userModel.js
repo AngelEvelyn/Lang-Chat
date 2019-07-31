@@ -21,6 +21,7 @@ const GET_ALL = 'SELECT user_id, username, email, picture_url, about_me FROM "us
 const GET_ALL_LIMITED = 'SELECT user_id, username, email, picture_url, about_me FROM "user" ORDER BY $1 LIMIT $2 OFFSET $3';
 // const GET_BY = 'SELECT * FROM "user" WHERE ';
 const DELETE_USER = 'UPDATE "user" SET is_deleted=TRUE WHERE user_id=$1 RETURNING user_id, username, email, picture_url, about_me';
+const GET_USER = 'SELECT user_id, username, token, email, picture_url, about_me FROM "user" WHERE is_deleted=FALSE AND username=$1';
 
 
 pool.query(CREATE_TABLE, (error, _result) => {
@@ -37,7 +38,10 @@ const model = {
 
       return pool.query(INSERT_USER, params, (error, result) => {
         if (error) return reject(error);
-        return resolve(result.rows);
+        const user = result.rows[0];
+        if (!user) return reject(new Error('user not created, please try again'));
+        const formattedUser = getUserFormattedToSendBack(user);
+        return resolve(formattedUser);
       });
     });
   },
@@ -51,7 +55,9 @@ const model = {
 
       return pool.query(isLimitedQuery ? GET_ALL_LIMITED : GET_ALL, params, (error, result) => {
         if (error) return reject(error);
-        return resolve(result.rows);
+        const formattedUsers = result.rows.map(user => getUserFormattedToSendBack(user));
+
+        return resolve(formattedUsers);
       });
     });
   },
@@ -63,10 +69,38 @@ const model = {
 
       return pool.query(DELETE_USER, params, (error, result) => {
         if (error) return reject(error);
-        return resolve(result);
+        const deletedUser = result.rows[0];
+        if (!deletedUser) return reject(new Error('no user found to delete'));
+        const formattedUser = getUserFormattedToSendBack(deletedUser);
+
+        return resolve(formattedUser);
+      });
+    });
+  },
+
+  getUserAndTokenByUsername(username) {
+    return new Promise((resolve, reject) => {
+      if (typeof username !== 'string' || username.trim().length === 0) return reject(new Error(`invalid username: ${username}`));
+      const params = [username];
+
+      return pool.query(GET_USER, params, (error, result) => {
+        if (error) return reject(error);
+        const user = result.rows[0];
+        const formattedUser = getUserFormattedToSendBack(user);
+        return resolve({ user: formattedUser, token: user.token });
       });
     });
   },
 };
+
+function getUserFormattedToSendBack(user) {
+  return {
+    userId: user.user_id,
+    username: user.username,
+    email: user.email,
+    pictureUrl: user.picture_url,
+    aboutMe: user.about_me,
+  };
+}
 
 module.exports = model;
