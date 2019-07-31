@@ -12,7 +12,7 @@ const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "user"(
 
 const INSERT_USER = 'INSERT INTO "user" (username, token, email, picture_url, about_me, is_deleted) VALUES ($1, $2, $3, $4, $5) RETURNING user_id, username, email, picture_url, about_me';
 const GET_ALL = 'SELECT * FROM "user" ORDER BY $1 LIMIT $2 OFFSET $3';
-const GET_BY = 'SELECT * FROM "user" WHERE ';
+// const GET_BY = 'SELECT * FROM "user" WHERE ';
 const DELETE_USER = 'UPDATE "user" SET is_deleted=true WHERE user_id = $1 RETURNING user_id, username, email, picture_url, about_me';
 
 
@@ -25,10 +25,10 @@ const model = {
   createUser({
     username, token, email, pictureUrl, aboutMe,
   }) {
-    const params = [username, token, email, pictureUrl, aboutMe];
-
     return new Promise((resolve, reject) => {
-      pool.query(INSERT_USER, params, (error, result) => {
+      const params = [username, token, email, pictureUrl, aboutMe];
+
+      return pool.query(INSERT_USER, params, (error, result) => {
         if (error) return reject(error);
         return resolve(result);
       });
@@ -36,10 +36,10 @@ const model = {
   },
 
   getAllUsers({ order, limit, offset }) {
-    const params = [order || 'username', limit || 'ALL', offset || 0];
-
     return new Promise((resolve, reject) => {
-      pool.query(GET_ALL, params, (error, result) => {
+      const params = [order || 'username', limit || 'ALL', offset || 0];
+
+      return pool.query(GET_ALL, params, (error, result) => {
         if (error) return reject(error);
         return resolve(result);
       });
@@ -47,10 +47,11 @@ const model = {
   },
 
   deleteUser(userId) {
-    const params = [userId];
-
     return new Promise((resolve, reject) => {
-      pool.query(DELETE_USER, params, (error, result) => {
+      if (typeof userId !== 'number' || userId < 1) return reject(new Error(`invalid userId: ${userId}`));
+      const params = [userId];
+
+      return pool.query(DELETE_USER, params, (error, result) => {
         if (error) return reject(error);
         return resolve(result);
       });
