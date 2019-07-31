@@ -1,10 +1,14 @@
 import React from 'react';
 import { render } from "react-dom";
-import App from "./App";
+import { BrowserRouter } from 'react-router-dom';
 import MyProvider from './Context.jsx';
+import App from "./App.jsx";
 
 render(
   <MyProvider>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </MyProvider>
   , document.getElementById('root'))
+

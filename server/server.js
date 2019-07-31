@@ -2,31 +2,30 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
 const apiRouter = require('./routers/apiRouter');
+
 const { PORT } = process.env;
 const app = express();
-const pool = require('./pool')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors())
+app.use(cors());
 
 // Static route to access images hosted in server
-app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
-//express router
+// express router
 app.use('/api', apiRouter);
 
-//404 err handling
-app.use(function (req, res, next) {
+// 404 err handling
+app.use((req, res, next) => {
   const err = new Error('RESOURCE NOT FOUND');
   err.status = 404;
   return next(err);
 });
 
 // Dedicated error handler
-app.use(function (err, req, res, next) {
+app.use((err, req, res, _next) => {
   console.error(err);
   res.status(404).json({
     success: false,
