@@ -7,7 +7,7 @@ const userController = {
       email: req.body.email,
       pictureUrl: req.body.pictureUrl,
       aboutMe: req.body.aboutMe,
-    }
+    };
 
     userParams.token = createToken(req.body.password);
 
@@ -18,9 +18,8 @@ const userController = {
     } catch (error) {
       return next(error);
     }
-    
-  }
-}
+  },
+};
 
 function createToken(password) {
   return password;
