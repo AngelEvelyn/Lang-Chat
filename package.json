@@ -7,7 +7,7 @@
     "dev": "nodemon -r dotenv/config server/server.js & webpack-dev-server -r dotenv/config --config webpack.config.js --mode development",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint:backend": "eslint server",
-    "lint:client": "eslint client",
+    "lint:frontend": "eslint client",
     "lint:all": "eslint ."
   },
   "repository": {
@@ -48,7 +48,6 @@
     "eslint-plugin-react": "^7.14.3",
     "nodemon": "^1.19.1",
     "react-hot-loader": "^4.11.0",
-    "redux-devtools-extension": "^2.13.8",
     "style-loader": "^0.23.1",
     "webpack": "^4.33.0",
     "webpack-cli": "^3.3.4",
