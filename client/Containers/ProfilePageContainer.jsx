@@ -3,14 +3,17 @@ import styled from 'styled-components';
 import ProfilePage from '../Components/ProfilePage.jsx'
 import ReviewContainer from '../Containers/ReviewContainer.jsx'
 
-function ProfilePageContainer() {
+function ProfilePageContainer({ match }) {
    const [editMode, setEditMode] = useState([false])
-
+   const userId = 1;
+   const User = match.params.id
     return (
       <ProfilePageContainerStyled>
           <div>
-            <button onClick={() => {console.log('click!')}}>EDIT</button>
-            <ProfilePage />
+            {User === userId ?
+              (<button onClick={() => {console.log('click!')}}>EDIT</button>)
+            : null}
+            <ProfilePage profileId={User}/>
             <ReviewContainer />
           </div>
       </ProfilePageContainerStyled>

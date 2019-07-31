@@ -4,10 +4,12 @@ import { NavLink } from 'react-router-dom';
 
 
 function Navbar() {
+const userId = 1
+const userProfile = userId ? '/profile/' + userId : '/signup'
   return (
     <NavbarStyled>
       <NavLink to='/'>Home</NavLink>
-      <NavLink to='/profile'>Profile</NavLink>
+      <NavLink to={userProfile}>Profile</NavLink>
       <button>Sign In / Sign Up</button>
     </NavbarStyled>
   );
