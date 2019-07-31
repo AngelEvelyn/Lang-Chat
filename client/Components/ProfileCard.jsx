@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function ProfileCard() {
+function ProfileCard({ profileInfo }) {
   return (
     <ProfileCardStyled>
       <div>
         <img src="https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914__340.png"></img>
+        <h3>{profileInfo.name}</h3>
+        <h5>Native Language: {profileInfo.nativeLanguage}</h5>
+        {profileInfo.isOnline ? <h5 id='online-status'>ONLINE!</h5> : <h5 id='offline-status'>offline..</h5>}
+        <button>Connect</button>
       </div>
     </ProfileCardStyled>
   )
@@ -17,17 +21,53 @@ const ProfileCardStyled = styled.div`
 
   height: 350px;
   width: 200px;
-  // padding: 2%;
-  margin: 2%;
 
-  border-style: solid;
-  border-width: 5px;
-  border-color: black;
+  // border-style: solid;
+  // border-width: 3px;
+  // border-color: black;
+  // border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
+
+  div h5 {
+    margin: 10px 0px;
+  }
 
   div img {
-    height: 50px;
-    width: 50px;
+    height: 50%;
+    width: 100%;
   }
+
+  div #online-status {
+    color: green;
+  }
+
+  div #offline-status {
+    color: red;
+  }
+
+  div button {
+    margin: 10px 0px;
+    border: none;
+    border-radius: 8px;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 150px;
+    font-size: 18px;
+  }
+
+  div button:hover, a:hover {
+  opacity: 0.7;
+}
+
+  text-align: center;
+  font-family: arial;
+
 `
 
 export default ProfileCard;
