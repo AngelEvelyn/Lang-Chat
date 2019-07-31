@@ -7,13 +7,14 @@ const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "user"(
   email VARCHAR(255) UNIQUE NOT NULL,
   picture_url VARCHAR(255),
   about_me VARCHAR(255),
-  registration_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+  registration_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  is_deleted BOOLEAN DEFAULT FALSE
 );`;
 
 const INSERT_USER = 'INSERT INTO "user" (username, token, email, picture_url, about_me, is_deleted) VALUES ($1, $2, $3, $4, $5) RETURNING user_id, username, email, picture_url, about_me';
 const GET_ALL = 'SELECT * FROM "user" ORDER BY $1 LIMIT $2 OFFSET $3';
 // const GET_BY = 'SELECT * FROM "user" WHERE ';
-const DELETE_USER = 'UPDATE "user" SET is_deleted=true WHERE user_id = $1 RETURNING user_id, username, email, picture_url, about_me';
+const DELETE_USER = 'UPDATE "user" SET is_deleted=TRUE WHERE user_id = $1 RETURNING user_id, username, email, picture_url, about_me';
 
 
 pool.query(CREATE_TABLE, (error, _result) => {
