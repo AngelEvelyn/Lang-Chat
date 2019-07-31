@@ -1,4 +1,5 @@
 const pool = require('../pool');
+const { toCamel } = require('../utils/caseConverters');
 
 const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "reports"(
   report_id SERIAL PRIMARY KEY,
@@ -7,7 +8,8 @@ const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "reports"(
   receiver_id INT,
   score INT,
   review VARCHAR(255),
-  reported_level VARCHAR(80)
+  reported_level VARCHAR(80),
+  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );`;
 
 pool.query(CREATE_TABLE, (error, _result) => {
@@ -20,8 +22,12 @@ const INSERT_REPORT = `INSERT INTO "reports"
   VALUES ($1, $2, $3, $4, $5, $6)
 ;`;
 
+const SELECT_BY_USER_ID = `SELECT conversation_id, giver_id, score, review, reported_level, date
+  FROM "reports" WHERE receiver_id=$1 ORDER BY date
+;`;
+
 const conversationReportModel = {
-  reportCreator({
+  createReport({
     conversationId, giverId, receiverId, score, review, reportedLevel,
   }) {
     return new Promise((resolve, reject) => {
@@ -33,6 +39,22 @@ const conversationReportModel = {
       });
     });
   },
+
+  getUserReceivedReports(userId) {
+    return new Promise((resolve, reject) => {
+      const params = [userId];
+
+      return pool.query(SELECT_BY_USER_ID, params, (error, result) => {
+        if (error) return reject(error);
+        const reports = result.rows.map(report => getFormattedReport(report));
+        return resolve(reports);
+      });
+    });
+  },
 };
+
+function getFormattedReport(report) {
+  return toCamel(report);
+}
 
 module.exports = conversationReportModel;

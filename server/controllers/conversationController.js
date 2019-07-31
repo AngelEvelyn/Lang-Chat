@@ -20,7 +20,7 @@ const conversationController = {
     }
   },
 
-  async conversationReport(req, res, next) {
+  async createConversationReport(req, res, next) {
     const params = {
       conversationId: req.body.conversationId,
       giverId: req.body.giverId,
@@ -31,7 +31,7 @@ const conversationController = {
     };
 
     try {
-      const newReport = await conversationReportModel.reportCreator(params);
+      const newReport = await conversationReportModel.createReport(params);
       res.locals.report = newReport;
       return next();
     } catch (error) {
