@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 
 function Navbar() {
   return (
     <NavbarStyled>
-      <h5>Home</h5>
-      <h5>Sign In / Sign Up</h5>
+      <NavLink to='/'>Home</NavLink>
+      <NavLink to='/profile'>Profile</NavLink>
+      <button>Sign In / Sign Up</button>
     </NavbarStyled>
   );
 }

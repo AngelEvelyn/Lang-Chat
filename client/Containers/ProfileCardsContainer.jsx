@@ -1,8 +1,6 @@
 import React from 'react';
-import ProfileCard from '../Components/ProfileCard';
-
+import ProfileCard from '../Components/ProfileCard.jsx';
 import styled from 'styled-components';
-
 
 function ProfileCardsContainer() {
   return (
