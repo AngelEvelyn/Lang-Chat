@@ -1,5 +1,6 @@
 const path = require('path');
-const webpack = require('webpack')
+const webpack = require('webpack');
+
 const NODE_DEV_SERVER_URL = `http://localhost:${process.env.PORT}`;
 
 module.exports = {
@@ -19,16 +20,14 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loaders: ['style-loader', 'css-loader']
-      }
+        loaders: ['style-loader', 'css-loader'],
+      },
     ],
   },
   resolve: {
     extensions: ['*', '.js', '.jsx'],
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
     contentBase: `${__dirname}/client/dist`,
     historyApiFallback: true,

@@ -8,6 +8,4 @@ userRouter.post('/create', userController.createUser, (req, res) => {
   res.status(200).json({ success: true, message: 'user successfully created' });
 });
 
-
-
 module.exports = userRouter;
