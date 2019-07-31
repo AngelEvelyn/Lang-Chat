@@ -20,7 +20,7 @@ const conversationController = {
     }
   },
 
-  async conversationReport(req, res, next) {
+  async createConversationReport(req, res, next) {
     const params = {
       conversationId: req.body.conversationId,
       giverId: req.body.giverId,
