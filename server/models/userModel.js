@@ -1,4 +1,5 @@
 const pool = require('./../pool');
+const { toCamel } = require('../utils/caseConverters');
 
 const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "user"(
   user_id SERIAL PRIMARY KEY,
@@ -40,7 +41,7 @@ const model = {
         if (error) return reject(error);
         const user = result.rows[0];
         if (!user) return reject(new Error('user not created, please try again'));
-        const formattedUser = getUserFormattedToSendBack(user);
+        const formattedUser = getFormattedUser(user);
         return resolve(formattedUser);
       });
     });
@@ -55,7 +56,7 @@ const model = {
 
       return pool.query(isLimitedQuery ? GET_ALL_LIMITED : GET_ALL, params, (error, result) => {
         if (error) return reject(error);
-        const formattedUsers = result.rows.map(user => getUserFormattedToSendBack(user));
+        const formattedUsers = result.rows.map(user => getFormattedUser(user));
 
         return resolve(formattedUsers);
       });
@@ -71,7 +72,7 @@ const model = {
         if (error) return reject(error);
         const deletedUser = result.rows[0];
         if (!deletedUser) return reject(new Error('no user found to delete'));
-        const formattedUser = getUserFormattedToSendBack(deletedUser);
+        const formattedUser = getFormattedUser(deletedUser);
 
         return resolve(formattedUser);
       });
@@ -86,20 +87,15 @@ const model = {
       return pool.query(GET_USER, params, (error, result) => {
         if (error) return reject(error);
         const user = result.rows[0];
-        const formattedUser = getUserFormattedToSendBack(user);
+        const formattedUser = getFormattedUser(user);
         return resolve({ user: formattedUser, token: user.token });
       });
     });
   },
 };
 
-function getUserFormattedToSendBack(user) {
-  return {
-    userId: user.user_id,
-    username: user.username,
-    pictureUrl: user.picture_url,
-    aboutMe: user.about_me,
-  };
+function getFormattedUser(user) {
+  return toCamel(user, ['user_id', 'username', 'picture_url', 'about_me']);
 }
 
 module.exports = model;

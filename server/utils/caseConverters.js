@@ -1,18 +1,23 @@
+/**
+ *
+ * @param {Object} obj object or array
+ * @param {[string]} whitelist optional array of keys, that if provided filters out this properties
+ * from the root level of the original object. Has no effect if input is an array
+ */
 function toCamel(obj, whitelist) {
-  const camelCasedObj = keysToCamel(obj);
-
-  if (whitelist) {
-    return whitelist.reduce((acc, key) => {
-      if (Object.prototype.hasOwnProperty.call(camelCasedObj, key)) acc[key] = camelCasedObj[key];
+  if (Array.isArray(whitelist) && isObject(obj)) {
+    const whitelistedObj = whitelist.reduce((acc, key) => {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) acc[key] = obj[key];
       return acc;
     }, {});
+
+    return keysToCamel(whitelistedObj);
   }
 
-  return camelCasedObj;
+  return keysToCamel(obj);
 }
 
 function keysToCamel(obj) {
-  // console.log('\nkeysToCamel invoked on:', obj);
   if (isObject(obj)) {
     const newObj = {};
 
@@ -22,7 +27,7 @@ function keysToCamel(obj) {
       });
 
     return newObj;
-  } if (isArray(obj)) {
+  } if (Array.isArray(obj)) {
     return obj.map(elem => keysToCamel(elem));
   }
 
@@ -35,12 +40,8 @@ function stringToCamel(s) {
     .replace('_', ''));
 }
 
-function isArray(a) {
-  return Array.isArray(a);
-}
-
-function isObject(o) {
-  return o === Object(o) && !isArray(o) && typeof o !== 'function';
+function isObject(obj) {
+  return obj === Object(obj) && !Array.isArray(obj) && typeof obj !== 'function';
 }
 
 module.exports = {
@@ -74,4 +75,4 @@ module.exports = {
 //   ],
 // };
 
-// console.log(toCamel(t1, ['serves', 'pairsWith']));
+// console.log(toCamel(t1, ['serves', 'pairs_with']));
