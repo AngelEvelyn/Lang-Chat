@@ -6,4 +6,8 @@ conversationRouter.post('/create', conversationController.createConversation, (r
     res.status(200).json({ success: true, message: `conversation successfully created`})
 });
 
+conversationRouter.post('/report', conversationController.conversationReport, (req, res) => {
+    res.status(200).json({ success: true, message: `report successfully created` })
+});
+
 module.exports = conversationRouter;

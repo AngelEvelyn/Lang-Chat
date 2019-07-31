@@ -1,4 +1,3 @@
-const pg = require("pg");
 const pool = require("../pool");
 
 const CREATE_TABLE = 
@@ -10,6 +9,7 @@ const CREATE_TABLE =
     type VARCHAR(80),
     length INT
 );`;
+
 
 const INSERT_CONVERSATION = `INSERT INTO "conversation"(user_1_id, user_2_id,language,type,length) VALUES ($1, $2, $3, $4, $5);`;
 
