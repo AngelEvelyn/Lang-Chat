@@ -22,7 +22,7 @@ const INSERT_REPORT = `INSERT INTO "reports"
   VALUES ($1, $2, $3, $4, $5, $6)
 ;`;
 
-const SELECT_BY_USER_ID = `SELECT conversation_id, giver_id, score, review, reported_level, date
+const SELECT_BY_RECEIVER_ID = `SELECT conversation_id, giver_id, score, review, reported_level, date
   FROM "reports" WHERE receiver_id=$1 ORDER BY date
 ;`;
 
@@ -35,7 +35,11 @@ const conversationReportModel = {
 
       return pool.query(INSERT_REPORT, params, (err, result) => {
         if (err) return reject(err);
-        return resolve(result);
+        const report = result.rows[0];
+        if (!report) return reject(new Error('something went wrong creating the report'));
+
+        const formattedReport = getFormattedReport(report);
+        return resolve(formattedReport);
       });
     });
   },
@@ -44,7 +48,7 @@ const conversationReportModel = {
     return new Promise((resolve, reject) => {
       const params = [userId];
 
-      return pool.query(SELECT_BY_USER_ID, params, (error, result) => {
+      return pool.query(SELECT_BY_RECEIVER_ID, params, (error, result) => {
         if (error) return reject(error);
         const reports = result.rows.map(report => getFormattedReport(report));
         return resolve(reports);
