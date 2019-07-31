@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import ProfilePage from '../Components/ProfilePage.jsx'
+import ReviewContainer from '../Containers/ReviewContainer.jsx'
 
 function ProfilePageContainer() {
+   const [editMode, setEditMode] = useState([false])
+
     return (
       <ProfilePageContainerStyled>
           <div>
-              A different thing!
+            <button onClick={() => {console.log('click!')}}>EDIT</button>
+            <ProfilePage />
+            <ReviewContainer />
           </div>
       </ProfilePageContainerStyled>
     )
