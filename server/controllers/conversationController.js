@@ -31,7 +31,7 @@ const conversationController = {
     };
 
     try {
-      const newReport = await conversationReportModel.reportCreator(params);
+      const newReport = await conversationReportModel.createReport(params);
       res.locals.report = newReport;
       return next();
     } catch (error) {
