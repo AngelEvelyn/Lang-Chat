@@ -17,8 +17,8 @@ pool.query('DROP TABLE "user"', (error, _result) => {
 });
 
 const INSERT_USER = 'INSERT INTO "user" (username, token, email, picture_url, about_me) VALUES ($1, $2, $3, $4, $5) RETURNING user_id, username, email, picture_url, about_me';
-const GET_ALL = 'SELECT username, email, picture_url, about_me FROM "user" WHERE is_deleted=FALSE ORDER BY $1 OFFSET $2';
-const GET_ALL_LIMITED = 'SELECT username, email, picture_url, about_me FROM "user" ORDER BY $1 LIMIT $2 OFFSET $3';
+const GET_ALL = 'SELECT user_id, username, email, picture_url, about_me FROM "user" WHERE is_deleted=FALSE ORDER BY $1 OFFSET $2';
+const GET_ALL_LIMITED = 'SELECT user_id, username, email, picture_url, about_me FROM "user" ORDER BY $1 LIMIT $2 OFFSET $3';
 // const GET_BY = 'SELECT * FROM "user" WHERE ';
 const DELETE_USER = 'UPDATE "user" SET is_deleted=TRUE WHERE user_id=$1 RETURNING user_id, username, email, picture_url, about_me';
 
