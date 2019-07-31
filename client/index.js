@@ -1,5 +1,10 @@
 import React from 'react';
 import { render } from "react-dom";
 import App from "./App";
+import MyProvider from './Context.jsx';
 
-render(<App />, document.getElementById('root'))
+render(
+  <MyProvider>
+    <App />
+  </MyProvider>
+  , document.getElementById('root'))

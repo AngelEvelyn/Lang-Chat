@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 import Home from './Containers/Home';
 
-function App() {
+function App(props) {
   return (
-    <div>
-      <Home />
-    </div>
+    <Home />
   );
 }
 
