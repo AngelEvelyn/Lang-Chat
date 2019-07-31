@@ -6,6 +6,6 @@ const conversationRouter = require('./conversationRouter');
 const apiRouter = new Router();
 
 apiRouter.use('/user', userRouter);
-apiRouter.use('/conversation',conversationRouter);
+apiRouter.use('/conversation', conversationRouter);
 
 module.exports = apiRouter;

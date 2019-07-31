@@ -11,10 +11,16 @@ const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "user"(
   is_deleted BOOLEAN DEFAULT FALSE
 );`;
 
-const INSERT_USER = 'INSERT INTO "user" (username, token, email, picture_url, about_me, is_deleted) VALUES ($1, $2, $3, $4, $5) RETURNING user_id, username, email, picture_url, about_me';
-const GET_ALL = 'SELECT * FROM "user" ORDER BY $1 LIMIT $2 OFFSET $3';
+// pool.query('DROP TABLE "user"', (error, _result) => {
+//   if (error) console.log('error droping user table:', error);
+//   else console.log('user table droped successfully');
+// });
+
+const INSERT_USER = 'INSERT INTO "user" (username, token, email, picture_url, about_me) VALUES ($1, $2, $3, $4, $5) RETURNING user_id, username, email, picture_url, about_me';
+const GET_ALL = 'SELECT user_id, username, email, picture_url, about_me FROM "user" WHERE is_deleted=FALSE ORDER BY $1 OFFSET $2';
+const GET_ALL_LIMITED = 'SELECT user_id, username, email, picture_url, about_me FROM "user" ORDER BY $1 LIMIT $2 OFFSET $3';
 // const GET_BY = 'SELECT * FROM "user" WHERE ';
-const DELETE_USER = 'UPDATE "user" SET is_deleted=TRUE WHERE user_id = $1 RETURNING user_id, username, email, picture_url, about_me';
+const DELETE_USER = 'UPDATE "user" SET is_deleted=TRUE WHERE user_id=$1 RETURNING user_id, username, email, picture_url, about_me';
 
 
 pool.query(CREATE_TABLE, (error, _result) => {
@@ -31,18 +37,21 @@ const model = {
 
       return pool.query(INSERT_USER, params, (error, result) => {
         if (error) return reject(error);
-        return resolve(result);
+        return resolve(result.rows);
       });
     });
   },
 
   getAllUsers({ order, limit, offset }) {
     return new Promise((resolve, reject) => {
-      const params = [order || 'username', limit || 'ALL', offset || 0];
+      const isLimitedQuery = typeof limit === 'number';
+      const params = isLimitedQuery
+        ? [order || 'username', limit, offset || 0]
+        : [order || 'username', offset || 0];
 
-      return pool.query(GET_ALL, params, (error, result) => {
+      return pool.query(isLimitedQuery ? GET_ALL_LIMITED : GET_ALL, params, (error, result) => {
         if (error) return reject(error);
-        return resolve(result);
+        return resolve(result.rows);
       });
     });
   },
