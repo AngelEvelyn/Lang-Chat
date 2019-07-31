@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-function ProfilePage(props) {
-    const User = <p>{props.profileId}</p>
+function ProfilePage({ profileInfo }) {
+    const User = <p>{profileInfo}</p>
     return (
       <ProfilePageStyled>
           <div>
