@@ -10,13 +10,13 @@ function ProfileCardsContainer() {
   ])
 
   useEffect(() => {
-    axios.get('googleea.com', {
-      params: {
-        language: 'english',
-        level: 'beginner'
-      }
+    axios.get('/api/user/getAll', {
+      limit: 10,
+      offset: 5,
     })
-      .then(data => setProfileCardsInfo(data))
+      .then(data => {
+        setProfileCardsInfo(data.data.result)
+      })
       .catch(err => console.log(err))
   }, [])
 
