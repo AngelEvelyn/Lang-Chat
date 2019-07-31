@@ -19,6 +19,34 @@ const userController = {
       return next(error);
     }
   },
+
+  async getAllUsers(req, res, next) {
+    const filteringParams = {
+      order: req.body.order || null,
+      limit: req.body.limit || null,
+      offset: req.body.offset || null,
+    };
+
+    try {
+      const users = await userModel.getAllUsers(filteringParams);
+      res.locals.users = users;
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+  async deleteUser(req, res, next) {
+    const { userId } = req.body;
+
+    try {
+      const user = await userModel.deleteUser(userId);
+      res.locals.user = user;
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  },
 };
 
 function createToken(password) {
