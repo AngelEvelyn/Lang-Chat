@@ -1,4 +1,5 @@
 const conversationModel = require('../models/conversationModel');
+const conversationReportModel = require('../models/conversationReportModel');
 
 const conversationController = {
     async createConversation(req, res, next){
@@ -17,6 +18,25 @@ const conversationController = {
         } catch (error){
             return next(error);
         };
+    },
+
+    async conversationReport(req, res, next){
+        const params = {
+            conversation_id: req.body.conversation_id,
+            giver_id: req.body.giver_id,
+            receiver_id: req.body.receiver_id,
+            score: req.body.stars,
+            review: req.body.review,
+            reported_level: req.body.reported_level
+        };
+
+        try{
+            const newReport = await conversationReportModel.reportCreator(params);
+            res.locals.report = newReport;
+            return next();
+        } catch(error){
+            return next(error);
+        }
     }
 }
 
