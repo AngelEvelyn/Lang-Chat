@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config server/server.js & webpack-dev-server -r dotenv/config --config webpack.config.js --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:backend": "eslint server",
+    "lint:client": "eslint client",
+    "lint:all": "eslint ."
   },
   "repository": {
     "type": "git",
