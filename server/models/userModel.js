@@ -11,10 +11,10 @@ const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "user"(
   is_deleted BOOLEAN DEFAULT FALSE
 );`;
 
-// pool.query('DROP TABLE "user"', (error, _result) => {
-//   if (error) console.log('error droping user table:', error);
-//   else console.log('user table droped successfully');
-// });
+pool.query('DROP TABLE "user"', (error, _result) => {
+  if (error) console.log('error droping user table:', error);
+  else console.log('user table droped successfully');
+});
 
 const INSERT_USER = 'INSERT INTO "user" (username, token, email, picture_url, about_me) VALUES ($1, $2, $3, $4, $5) RETURNING user_id, username, email, picture_url, about_me';
 const GET_ALL = 'SELECT username, email, picture_url, about_me FROM "user" WHERE is_deleted=FALSE ORDER BY $1 OFFSET $2';

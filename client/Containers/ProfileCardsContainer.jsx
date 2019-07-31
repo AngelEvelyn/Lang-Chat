@@ -15,13 +15,14 @@ function ProfileCardsContainer() {
       offset: 5,
     })
       .then(data => {
+        console.log(data)
         setProfileCardsInfo(data.data.result)
       })
       .catch(err => console.log(err))
   }, [])
 
   const cards = profileCardsInfo.map(profile => {
-    return <ProfileCard key={profile.name} profileInfo={profile} />
+    return <ProfileCard key={profile.username} profileInfo={profile} />
   })
   return (
     <ProfileCardsContainerStyled>
