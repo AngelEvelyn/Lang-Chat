@@ -97,7 +97,6 @@ function getUserFormattedToSendBack(user) {
   return {
     userId: user.user_id,
     username: user.username,
-    email: user.email,
     pictureUrl: user.picture_url,
     aboutMe: user.about_me,
   };
