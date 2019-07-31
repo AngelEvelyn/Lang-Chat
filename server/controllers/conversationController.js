@@ -38,6 +38,18 @@ const conversationController = {
       return next(error);
     }
   },
+
+  async getUserReceivedReports(req, res, next) {
+    const { userId } = req.params;
+
+    try {
+      const reports = await conversationReportModel.getUserReceivedReports(userId);
+      res.locals.reports = reports;
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  },
 };
 
 module.exports = conversationController;

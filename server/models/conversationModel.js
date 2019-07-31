@@ -1,4 +1,5 @@
 const pool = require('../pool');
+const { toCamel } = require('../utils/caseConverters');
 
 const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "conversation"(
   conversation_id SERIAL PRIMARY KEY,
@@ -29,10 +30,20 @@ const conversationModel = {
 
       pool.query(INSERT_CONVERSATION, params, (error, result) => {
         if (error) return reject(error);
+        const conversation = result.rows[0];
+        if (!conversation) return reject(new Error('something went wrong creating the conversation'));
+
+        const formattedConversation = getFormattedConversation(conversation);
+        return resolve(formattedConversation);
+
         return resolve(result);
       });
     });
   },
 };
+
+function getFormattedConversation(report) {
+  return toCamel(report);
+}
 
 module.exports = conversationModel;
