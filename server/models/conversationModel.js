@@ -35,8 +35,6 @@ const conversationModel = {
 
         const formattedConversation = getFormattedConversation(conversation);
         return resolve(formattedConversation);
-
-        return resolve(result);
       });
     });
   },
