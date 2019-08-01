@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import ProfilePage from '../Components/ProfilePage.jsx';
 import ReviewContainer from '../Containers/ReviewContainer.jsx';
 import ProfilePageForm from '../Components/ProfilePageForm.jsx';
-import Context from '../Context';
+import { Context } from '../Context';
+import axios from 'axios';
 
 function ProfilePageContainer({ match }) {
    const [editMode, setEditMode] = useState(false);
    const [profileId, setProfileId] = useState(match.params.id);
    const { currentUser } = useContext(Context);
-   const [profileData, setProfileData] = useState({userId: 1, username: 'Nahuel', pictureURL: 'https://www.instagram.com/p/Bgex-GTB6on/', 
-   aboutMe: "I'm a really smart guy from Argentina. Ask me about Promises.", 
-   languages: {native: ['Spanish'], fluent: ['English'], beginner: ['Japanese']}, });
+   const [profileData, setProfileData] = useState({});
    const userId = currentUser.userId;
+   console.log(profileData);
 
    const updateField = (e) => {
     const changeField = e.target.id;
@@ -28,20 +28,24 @@ function ProfilePageContainer({ match }) {
   };
 
   const submitUpdates = () => {
-    Axios.post('/api/', { profileData })
-    .then(setEditMode(false));
+    // axios.post('/api/', { profileData })
+    // .then(setEditMode(false));
+    setEditMode(false);
   };
 
    useEffect(() => {
-    axios.get('/api/user', {
-      userId: profileId,
-    })
-      .then(data => {
-        console.log(data)
-        setProfileData(data.data.result)
-      })
-      .catch(err => console.log(err))
-  }, {})
+    setProfileData({ userId: userId, username: currentUser.username, pictureURL: 'https://www.instagram.com/p/Bgex-GTB6on/', 
+    aboutMe: "I'm a really smart guy from Argentina. Ask me about Promises.", 
+    languages: {native: ['Spanish'], advanced: ['English'], basic: ['Japanese']}, });
+    // axios.get('/api/user', {
+    //   userId: profileId,
+    // })
+    //   .then(data => {
+    //     console.log(data)
+    //     setProfileData(data.data.result)
+    //   })
+    //   .catch(err => console.log(err))
+  }, [])
   
   console.log(editMode);
     return (
@@ -60,7 +64,7 @@ function ProfilePageContainer({ match }) {
               <ProfilePage profileData={profileData}/>
             ) : (
               <ProfilePageForm profileData={profileData} setProfileData={setProfileData} 
-                updateField={updateField} updateLanguageField={updateLanguageField} submitUpdates={submitUpdates}/>
+                updateField={updateField} updateLanguageField={updateLanguageField} submitUpdates={submitUpdates} setEditMode={setEditMode}/>
             )}
 
             <ReviewContainer profileId={profileId}/>

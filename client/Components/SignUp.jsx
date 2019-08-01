@@ -1,6 +1,8 @@
 import React, { useState, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { uploadFile } from 'react-s3';
+
 
 //material ui dependencies
 import Avatar from '@material-ui/core/Avatar';
@@ -13,6 +15,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+const config = {
+  bucketName: 'lang-chat',
+  region: 'us-west-1',
+  accessKeyId: 'AKIAVUJIGLSF6QVOCVGD',
+  secretAccessKey: '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',
+}
 
 function SignUp({ setAuthModal }) {
   const classes = useStyles();
@@ -27,10 +35,15 @@ function SignUp({ setAuthModal }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(values)
-    console.log(file.current.files[0])
+    let newFile = file.current.files[0]
+    console.log(file)
 
-    let formData = new FormData();
-    formData.append('file', file.current.files[0]);
+    // let formData = new FormData();
+    // formData.append('file', file.current.files[0]);
+
+    uploadFile(newFile, config)
+      .then(data => console.log(data))
+      .catch(err => console.error(err))
 
     // fetch('/api/upload', {
     //   method: 'POST',

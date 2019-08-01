@@ -1,22 +1,23 @@
 import React, { useState, useEffect} from 'react';
 import styled from 'styled-components';
 import ReviewCard from '../Components/ReviewCard.jsx'
+import axios from 'axios';
 
-
-function ReviewContainer() {
-  const reviewsArray = [{
-    conversationId: 1,
-    userId: 'Angel',
-    rating: '4/5',
-    language: 'English',
-    date: '07/26/19',
-    level: 'Fluent',
-    length: '30 mintues',
-    review: 'Nice person to have a conversation with. Love the accent. He played a song in english, so he gets a higher rating for that. One point off because he needs a shave.'
-  }]
+function ReviewContainer({ profileId }) {
+  const [reviewsArray, setReviewsArray] = useState([]);
+  // const reviewsArray = [{
+  //   conversationId: 1,
+  //   userId: 'Angel',
+  //   rating: '4/5',
+  //   language: 'English',
+  //   date: '07/26/19',
+  //   level: 'Fluent',
+  //   length: '30 mintues',
+  //   review: 'Nice person to have a conversation with. Love the accent. He played a song in english, so he gets a higher rating for that. One point off because he needs a shave.'
+  // }]
 
   useEffect(() => {
-    axios.get('/api/user', {
+    axios.get('/api/reviews', {
       userId: profileId,
     })
       .then(data => {

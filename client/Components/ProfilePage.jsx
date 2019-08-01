@@ -17,7 +17,8 @@ function ProfilePage({ profileData, profileId }) {
       <ProfilePageStyled>
             <h1>{username}</h1>
             <img href={profilePicURL} alt="Profile picture"></img>
-            <p>{aboutMe}</p>
+            <p>About Me: {' '}{aboutMe}</p>
+            <button>Connect</button>
             <div id='profile-language-levels'>
               {levelsDispLay}
             </div>
@@ -26,7 +27,28 @@ function ProfilePage({ profileData, profileId }) {
   }
   
   const ProfilePageStyled = styled.div`
-   display: flex;`
+   display: flex;
+   flex-direction: column;
+   div img: {
+     border: solid 2px blue;
+     height: 300px;
+     width: 200px;
+   }
+   div button: {
+    margin: 10px 0px;
+    border: none;
+    border-radius: 8px;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 150px;
+    font-size: 18px;
+   }
+   `
 
 
 export default ProfilePage;

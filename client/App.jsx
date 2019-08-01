@@ -14,8 +14,8 @@ function App() {
         <Navbar authModal={authModal} setAuthModal={setAuthModal} />
         <div id="main-div">
           <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/profile/:id" exact component={ProfilePageContainer} />
+            <Route path="/" exact component={Home} />
+            <Route path="/profile/:id" exact component={ProfilePageContainer} />
           </Switch>
         </div>
         {authModal && <AuthModalPage setAuthModal={setAuthModal} />}
