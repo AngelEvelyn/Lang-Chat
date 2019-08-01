@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import styled from 'styled-components';
 import ReviewCard from '../Components/ReviewCard.jsx'
+
 
 function ReviewContainer() {
   const reviewsArray = [{
@@ -13,6 +14,18 @@ function ReviewContainer() {
     length: '30 mintues',
     review: 'Nice person to have a conversation with. Love the accent. He played a song in english, so he gets a higher rating for that. One point off because he needs a shave.'
   }]
+
+  useEffect(() => {
+    axios.get('/api/user', {
+      userId: profileId,
+    })
+      .then(data => {
+        console.log(data)
+        setReviewsArray(data.data.result)
+      })
+      .catch(err => console.log(err))
+  }, [])
+
   const reviews = reviewsArray.map((reviewObj) => {
       return <ReviewCard key={reviewObj.conversationId} reviewInfo={reviewObj}/>
   })
