@@ -4,7 +4,9 @@ import { Context } from '../Context.jsx';
 function UserInfo() {
   const { currentUser } = useContext(Context)
   return (
-    <h1>{currentUser.name}</h1>
+    <>
+      {currentUser.userId ? <h1>{currentUser.username}</h1> : 'user not logged in..'}
+    </>
   );
 }
 export default UserInfo
