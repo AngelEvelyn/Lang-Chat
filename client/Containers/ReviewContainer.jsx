@@ -10,6 +10,7 @@ function ReviewContainer() {
     language: 'English',
     date: '07/26/19',
     level: 'Fluent',
+    length: '30 mintues',
     review: 'Nice person to have a conversation with. Love the accent. He played a song in english, so he gets a higher rating for that. One point off because he needs a shave.'
   }]
   const reviews = reviewsArray.map((reviewObj) => {
