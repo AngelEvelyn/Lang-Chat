@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ProfilePage from '../Components/ProfilePage.jsx'
 import ReviewContainer from '../Containers/ReviewContainer.jsx'
+// import ProflePageForm from '../Containers/ProfilePageForm.jsx'
 
 function ProfilePageContainer({ match }) {
-   const [editMode, setEditMode] = useState([false]);
-   const [profileId, setProfileId] = useState([match.params.id]);
-   const [profileData, setProfileData] = useState([]);
-   const user = 1;
+  const [editMode, setEditMode] = useState([false]);
+  const [profileId, setProfileId] = useState([match.params.id]);
+  const [profileData, setProfileData] = useState([]);
+  const user = 1;
 
   //  useEffect(() => {
   //   axios.get('/api/user', {
@@ -20,31 +21,31 @@ function ProfilePageContainer({ match }) {
   //     .catch(err => console.log(err))
   // }, [])
 
-    return (
-      <ProfilePageContainerStyled>
-          <div>
-            {profileId == user ? (
-              <button onClick={() => {
-                setEditMode([true]);
-                console.log(editMode);
-              }}>EDIT</button>
-              ) : (
+  return (
+    <ProfilePageContainerStyled>
+      <div>
+        {profileId == user ? (
+          <button onClick={() => {
+            setEditMode([true]);
+            console.log(editMode);
+          }}>EDIT</button>
+        ) : (
             null
-            )}
+          )}
 
-            {editMode === false ? (
-              <ProfilePage profileData={profileData}/>
-            ) : (
-              <ProfilePageForm profileData={profileData}/>
-            )}
+        {editMode === false ? (
+          <ProfilePage profileData={profileData} />
+        ) : (
+            <ProfilePageForm profileData={profileData} />
+          )}
 
-            <ReviewContainer />
-          </div>
-      </ProfilePageContainerStyled>
-    )
-  }
-  
-  const ProfilePageContainerStyled = styled.div`
+        <ReviewContainer />
+      </div>
+    </ProfilePageContainerStyled>
+  )
+}
+
+const ProfilePageContainerStyled = styled.div`
    display: flex;`
 
 

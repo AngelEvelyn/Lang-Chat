@@ -8,6 +8,8 @@ const filterReducer = (state, action) => {
       return { ...state, filteredLang: action.payload };
     case "CHANGE_FILTER_LEVEL":
       return { ...state, filteredLevel: action.payload };
+    default:
+      return {...state}
   }
 }
 
@@ -17,6 +19,8 @@ const currentUserReducer = (state, action) => {
       return { ...action.payload };
     case "SIGN_OUT":
       return { userId: null, username: null }
+    default:
+      return {...state}
   }
 }
 
