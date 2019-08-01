@@ -11,13 +11,22 @@ const filterReducer = (state, action) => {
   }
 }
 
+const currentUserReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_CURR_USER":
+      return { ...action.payload };
+    case "SIGN_OUT":
+      return { userId: null, username: null }
+  }
+}
+
 const MyProvider = (props) => {
-  const [currentUser, setCurrentUser] = useState({ name: 'Nahuel', fluentLang: 'Spanish' })
+  const [currentUser, dispatchCurrUser] = useReducer(currentUserReducer, { userId: null, username: null })
   const [profiles, setProfiles] = useState([])
   const [filterParams, dispatch] = useReducer(filterReducer, { filteredLang: null, filteredLevel: null })
 
   return (
-    <Context.Provider value={{ currentUser, profiles, filterParams, dispatch }}>
+    <Context.Provider value={{ profiles, filterParams, dispatch, currentUser, dispatchCurrUser }}>
       {props.children}
     </Context.Provider >
   )

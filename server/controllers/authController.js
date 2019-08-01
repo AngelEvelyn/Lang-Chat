@@ -39,9 +39,9 @@ function createToken(password) {
   return password;
 }
 
-function validatePassword(password, user) {
-  if (!user) return false;
-  return createToken(password) === user.token;
+function validatePassword(password, token) {
+  if (!token) return false;
+  return createToken(password) === token;
 }
 
 module.exports = authController;

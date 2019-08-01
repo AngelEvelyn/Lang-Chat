@@ -5,11 +5,7 @@ import styled from 'styled-components';
 import ProfileCard from '../Components/ProfileCard';
 
 function ProfileCardsContainer() {
-  const [profileCardsInfo, setProfileCardsInfo] = useState([
-    {
-      name: ['Nahuel'], nativeLanguage: ['Spanish'], isOnline: false, languages: ['English'],
-    },
-  ]);
+  const [profileCardsInfo, setProfileCardsInfo] = useState([])
 
   useEffect(() => {
     axios.get('/api/user/getAll', {
@@ -35,9 +31,12 @@ function ProfileCardsContainer() {
 }
 
 const ProfileCardsContainerStyled = styled.div`
- display: flex;
- justify-content: space-evenly;
- flex-flow: row wrap;
-`;
+  border-top: solid 2px grey;
+  padding-top: 20px;
+
+   display: flex;
+   justify-content: space-evenly;
+   flex-flow: row wrap;
+  `
 
 export default ProfileCardsContainer;
