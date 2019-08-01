@@ -1,19 +1,9 @@
 const pool = require('../pool');
 const { toCamel } = require('../utils/caseConverters');
 
-const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "level"(
-  level_id SERIAL PRIMARY KEY,
-  label VARCHAR(80) REQUIRED UNIQUE,
-)`;
+const INSERT_LEVEL = 'INSERT INTO "level" (label) VALUES ($1) RETURNING *;';
 
-pool.query(CREATE_TABLE, (error, _result) => {
-  if (error) console.log('error creating level table:', error);
-  else console.log('level table created or already existed');
-});
-
-const INSERT_LEVEL = 'INSERT INTO "level" (label) VALUES ($1)';
-
-const UPDATE_LABEL = 'UPDATE "level" SET label=$2 WHERE level_id=$1 ';
+const UPDATE_LABEL = 'UPDATE "level" SET label=$2 WHERE id=$1 RETURNING *;';
 
 const levelModel = {
   create(label) {

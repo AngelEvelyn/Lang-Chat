@@ -1,19 +1,9 @@
 const pool = require('../pool');
 const { toCamel } = require('../utils/caseConverters');
 
-const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "language"(
-  language_id SERIAL PRIMARY KEY,
-  label VARCHAR(80) REQUIRED UNIQUE,
-)`;
+const INSERT_LANGUAGE = 'INSERT INTO "language" (label) VALUES ($1) RETURNING *;';
 
-pool.query(CREATE_TABLE, (error, _result) => {
-  if (error) console.log('error creating language table:', error);
-  else console.log('language table created or already existed');
-});
-
-const INSERT_LANGUAGE = 'INSERT INTO "language" (label) VALUES ($1)';
-
-const UPDATE_LABEL = 'UPDATE "language" SET label=$2 WHERE language_id=$1 ';
+const UPDATE_LABEL = 'UPDATE "language" SET label=$2 WHERE id=$1 RETURNING *;';
 
 const languageModel = {
   create(label) {

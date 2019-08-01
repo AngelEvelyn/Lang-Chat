@@ -1,34 +1,12 @@
 const pool = require('./../pool');
 const { toCamel } = require('../utils/caseConverters');
 
-const CREATE_TABLE = `CREATE TABLE IF NOT EXISTS "user"(
-  user_id SERIAL PRIMARY KEY,
-  username VARCHAR(80) UNIQUE NOT NULL,
-  token VARCHAR(80) NOT NULL, 
-  email VARCHAR(255) UNIQUE NOT NULL,
-  picture_url VARCHAR(255),
-  about_me VARCHAR(255),
-  registration_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  is_deleted BOOLEAN DEFAULT FALSE
-);`;
-
-// pool.query('DROP TABLE "user"', (error, _result) => {
-//   if (error) console.log('error droping user table:', error);
-//   else console.log('user table droped successfully');
-// });
-
-const INSERT_USER = 'INSERT INTO "user" (username, token, email, picture_url, about_me) VALUES ($1, $2, $3, $4, $5) RETURNING user_id, username, email, picture_url, about_me';
-const GET_ALL = 'SELECT user_id, username, email, picture_url, about_me FROM "user" WHERE is_deleted=FALSE ORDER BY $1 OFFSET $2';
-const GET_ALL_LIMITED = 'SELECT user_id, username, email, picture_url, about_me FROM "user" ORDER BY $1 LIMIT $2 OFFSET $3';
+const INSERT_USER = 'INSERT INTO "user" (username, token, email, picture_url, about_me) VALUES ($1, $2, $3, $4, $5) RETURNING id, username, email, picture_url, about_me';
+const GET_ALL = 'SELECT id, username, email, picture_url, about_me FROM "user" WHERE is_deleted=FALSE ORDER BY $1 OFFSET $2';
+const GET_ALL_LIMITED = 'SELECT id, username, email, picture_url, about_me FROM "user" ORDER BY $1 LIMIT $2 OFFSET $3';
 // const GET_BY = 'SELECT * FROM "user" WHERE ';
-const DELETE_USER = 'UPDATE "user" SET is_deleted=TRUE WHERE user_id=$1 RETURNING user_id, username, email, picture_url, about_me';
-const GET_USER = 'SELECT user_id, username, token, email, picture_url, about_me FROM "user" WHERE is_deleted=FALSE AND username=$1';
-
-
-pool.query(CREATE_TABLE, (error, _result) => {
-  if (error) console.log('error creating user table:', error);
-  else console.log('user table created or already existed');
-});
+const DELETE_USER = 'UPDATE "user" SET is_deleted=TRUE WHERE id=$1 RETURNING id, username, email, picture_url, about_me';
+const GET_USER = 'SELECT id, username, token, email, picture_url, about_me FROM "user" WHERE is_deleted=FALSE AND username=$1';
 
 const model = {
   createUser({
@@ -95,7 +73,7 @@ const model = {
 };
 
 function getFormattedUser(user) {
-  return toCamel(user, ['user_id', 'username', 'picture_url', 'about_me']);
+  return toCamel(user, ['id', 'username', 'picture_url', 'about_me']);
 }
 
 module.exports = model;
