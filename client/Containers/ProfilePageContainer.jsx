@@ -13,6 +13,7 @@ function ProfilePageContainer({ match }) {
    const [profileData, setProfileData] = useState({});
    const [languageData, setLanguageData] = useState({});
    const userId = currentUser.userId;
+   const userPath = '/api/user/get' + profileId;
 
    const updateField = (e) => {
     const changeField = e.target.id;
@@ -23,30 +24,29 @@ function ProfilePageContainer({ match }) {
 
   const updateLanguageField = (e) => {
     const changeField = e.target.id;
-    const updateValue = e.target.value.split(',');
-    setProfileData(prevProfileData => ({ ...prevProfileData, languages: { [changeField]: updateValue } }));
-    console.log('Profile UpdatedLanguageField:', profileData);
+    const updateValue = e.target.value.split(', ');
+    setLanguageData(prevlanguageData => ({ ...prevlanguageData, [changeField]: updateValue }));
+    console.log('Profile UpdatedLanguageField:', languageData);
   };
 
   const submitUpdates = () => {
+    axios.post(userPath, { profileData })
     const updateAlert = alert('Updated!');
-    // axios.post('/api/', { profileData })
-    // .then(setEditMode(false));
   };
 
    useEffect(() => {
-    setProfileData({ userId: userId, username: currentUser.username, pictureURL: 'https://www.instagram.com/p/Bgex-GTB6on/', 
-    aboutMe: "I'm a really smart guy from Argentina. Ask me about Promises."});
-    setLanguageData({native: ['Spanish', 'Spanglish'], advanced: ['English', 'Pig Latin'], basic: ['Japanese']}); 
-    // axios.get('/api/user', {
-    //   userId: profileId,
-    // })
-    //   .then(data => {
-    //     console.log(data);
-    //     setProfileData(data.data.result);
-    //     setLanguageData(data.data.result.languages);
-    //   })
-    //   .catch(err => console.log(err))
+    // setProfileData({ userId: userId, username: currentUser.username, pictureURL: 'https://www.instagram.com/p/Bgex-GTB6on/', 
+    // aboutMe: "I'm a really smart guy from Argentina. Ask me about Promises."});
+    // setLanguageData({native: ['Spanish', 'Spanglish'], advanced: ['English', 'Pig Latin'], basic: ['Japanese']}); 
+    axios.get(userPath, {
+      userId: profileId,
+    })
+      .then(data => {
+        console.log('User Profile Data', data);
+        setProfileData(data.data.result);
+        setLanguageData(data.data.result.languageArray);
+      })
+      .catch(err => console.log(err))
   }, [])
   
   console.log(editMode);

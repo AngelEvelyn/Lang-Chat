@@ -10,7 +10,7 @@ function ProfilePageForm({
   const { currentUser } = useContext(Context);
   const userProfile = '/profile/' + currentUser.userId;
   console.log('language object data', languageData);
-  // let native = languageData.native ? languageData.native.join(', ') : null;
+  let native = languageData.native ? languageData.native.join(', ') : null;
   // let advanced = languageData.advanced ? languageData.advanced.join(', ') : null;
   // let intermediate = languageData.intermediate ? languageData.native.join(', ') : null;
   // let basic = languageData.basic ? languageData.basic.join(', ') : null;
@@ -31,7 +31,7 @@ function ProfilePageForm({
         <br></br>
         <p>Enter you languages for each level (i.e. English, Korean, Chinese)</p><br></br>
         <label htmlFor="native">Native:</label><br></br>
-        <input type="text" id="native" value={languageData.native} onChange={(e) => { updateLanguageField(e); }}></input><br></br>
+        <input type="text" id="native" value={native} onChange={(e) => { updateLanguageField(e); }}></input><br></br>
         <label htmlFor="advanced">Advanced:</label><br></br>
         <input type="text" id="advanced" value={languageData.advanced} onChange={(e) => { updateLanguageField(e); }}></input><br></br>
         <label htmlFor="intermediate">Intermediate:</label><br></br>
