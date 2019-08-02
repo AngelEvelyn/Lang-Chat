@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-function ProfilePage({ profileData, profileId }) {
+function ProfilePage({ profileData, profileId, languageData }) {
     const username = profileData.username;
     const profilePicURL = profileData.pictureURL;
     const aboutMe = profileData.aboutMe;
-    const languages = profileData.languages;
+    const languages = languageData;
     const levelsDispLay = [];
     for(let level in languages){
-        levelsDispLay.push(<p>{level.toUpperCase()}:{' '}{languages[level].join(',')}</p>);
+        levelsDispLay.push(<p>{level.toUpperCase()}:{' '}{languages[level].join(', ')}</p>);
     }
 
 

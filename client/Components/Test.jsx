@@ -1,7 +1,6 @@
-import React, { useState, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 
-import { Context } from '../Context.jsx';
 
 
 import Avatar from '@material-ui/core/Avatar';
@@ -14,40 +13,41 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Context } from '../Context.jsx';
 
 
 export default function SignIn({ setAuthModal, setWillSignUp }) {
   const classes = useStyles();
-  const { dispatchCurrUser } = useContext(Context)
+  const { dispatchCurrUser } = useContext(Context);
   const [values, setValues] = React.useState({
     username: '',
-    password: ''
+    password: '',
   });
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    console.log(values)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(values);
 
     axios.post('/api/auth/signin', {
       username: values.username,
       password: values.password,
     })
-      .then(data => {
-        console.log(data)
+      .then((data) => {
+        console.log(data);
         dispatchCurrUser({
           type: 'SET_CURR_USER',
           payload: {
             username: data.data.result.username,
-            userId: data.data.result.userId
-          }
-        })
+            userId: data.data.result.id,
+          },
+        });
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
 
-    setAuthModal(false)
-  }
+    setAuthModal(false);
+  };
 
-  const handleChange = name => event => {
+  const handleChange = name => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
