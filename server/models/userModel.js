@@ -10,7 +10,7 @@ const GET_USER = 'SELECT id, username, token, email, picture_url, about_me FROM 
 const GET_USER_WITH_LANGUAGES = `SELECT u.id, u.username, u.email, u.picture_url, u.about_me, ul.language_array
   FROM "user" u
   JOIN (
-    SELECT ul.user_id, json_agg('[' || la.label || ',' || le.label || ']') AS language_array
+    SELECT ul.user_id, array_agg('[' || la.label || ',' || le.label || ']') AS language_array
     FROM "user_language" ul
     JOIN "language" la ON la.id=ul.language_id
     JOIN "level" le ON le.id=ul.level_id
@@ -94,6 +94,14 @@ const model = {
         if (error) return reject(error);
         const user = result.rows[0];
         const formattedUser = toCamel(user);
+        formattedUser.languageArray = formattedUser.languageArray.reduce((acc, str) => {
+          const parsedArray = JSON.parse(str.replace('\\', ''));
+          const language = parsedArray[0].label;
+          const level = parsedArray[1].label;
+          if (!acc[level]) acc[level] = [];
+          acc[level].push(language);
+          return acc;
+        }, {});
         return resolve({ user: formattedUser });
       });
     });
