@@ -44,7 +44,7 @@ function ProfilePageContainer({ match }) {
       .then(data => {
         console.log('User Profile Data', data.data.result);
         setProfileData(data.data.result.user);
-        setLanguageData(data.data.result.languageArray);
+        setLanguageData(data.data.result.user.languageArray);
       })
       .catch(err => console.log(err))
   }, [])

@@ -6,14 +6,12 @@ const ReviewCard = ({ reviewInfo }) => {
     <ReviewCardStyled>
       <div id={'conversation-' + reviewInfo.conversationId + '-div'}>
         <span>
-          <p><b>User ID:</b> {' ' + reviewInfo.giverId + ' '}</p>
+          <p><b>User ID:</b> {' ' + reviewInfo.giverId}</p>
           <p><b>Date:</b> {' ' + reviewInfo.date}</p>
-        </span>
-        <span>
-          <p><b>Rating:</b> {' ' + reviewInfo.rating + '/5'}</p>
+          <p><b>Rating:</b> {' ' + reviewInfo.score + '/5'}</p>
           <p><b>Level:</b> {' ' + reviewInfo.reportedLevel}</p>
         </span>
-        <p><b>Comments</b>: {' ' + reviewInfo.score}</p>
+        <p><b>Comments</b>: {' ' + reviewInfo.review}</p>
       </div>
     </ReviewCardStyled>
   );
