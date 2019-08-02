@@ -10,10 +10,10 @@ function ProfilePageForm({
   const { currentUser } = useContext(Context);
   const userProfile = '/profile/' + currentUser.userId;
   console.log('language object data', languageData);
-  let native = languageData.native ? languageData.native.join(', ') : null;
-  // let advanced = languageData.advanced ? languageData.advanced.join(', ') : null;
-  // let intermediate = languageData.intermediate ? languageData.native.join(', ') : null;
-  // let basic = languageData.basic ? languageData.basic.join(', ') : null;
+  let native = languageData.native ? languageData.native.join(', ') : " ";
+  let advanced = languageData.advanced ? languageData.advanced.join(', ') : " ";
+  let intermediate = languageData.intermediate ? languageData.native.join(', ') : " ";
+  let basic = languageData.basic ? languageData.basic.join(', ') : " ";
   return (
     <ProfilePageFormStyled>
       <form id="profile-info-form" onSubmit={(e) => {

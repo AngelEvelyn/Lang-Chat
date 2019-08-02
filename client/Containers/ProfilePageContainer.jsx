@@ -13,7 +13,7 @@ function ProfilePageContainer({ match }) {
    const [profileData, setProfileData] = useState({});
    const [languageData, setLanguageData] = useState({});
    const userId = currentUser.userId;
-   const userPath = '/api/user/get' + profileId;
+   const userPath = '/api/user/get/' + profileId;
 
    const updateField = (e) => {
     const changeField = e.target.id;
@@ -42,8 +42,8 @@ function ProfilePageContainer({ match }) {
       userId: profileId,
     })
       .then(data => {
-        console.log('User Profile Data', data);
-        setProfileData(data.data.result);
+        console.log('User Profile Data', data.data.result);
+        setProfileData(data.data.result.user);
         setLanguageData(data.data.result.languageArray);
       })
       .catch(err => console.log(err))

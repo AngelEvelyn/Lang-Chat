@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 function ProfilePage({ profileData, profileId, languageData }) {
     const username = profileData.username;
-    const profilePicURL = profileData.pictureURL;
+    const profilePicURL = profileData.pictureUrl;
     const aboutMe = profileData.aboutMe;
     const languages = languageData;
     const levelsDispLay = [];

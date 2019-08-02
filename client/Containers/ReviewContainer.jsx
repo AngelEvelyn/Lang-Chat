@@ -15,7 +15,7 @@ function ReviewContainer({ profileId }) {
   //   length: '30 mintues',
   //   review: 'Nice person to have a conversation with. Love the accent. He played a song in english, so he gets a higher rating for that. One point off because he needs a shave.'
   // }]
-  const apiPath = 'api/reports/' + profileId;
+  const apiPath = '/api/conversation/reports/' + profileId;
 
   useEffect(() => {
     axios.get(apiPath, {
@@ -23,7 +23,7 @@ function ReviewContainer({ profileId }) {
     })
       .then(data => {
         console.log('Review Data:', data)
-        setReviewsArray(data.data.result.reports)
+        setReviewsArray(data.data.result)
       })
       .catch(err => console.log(err))
   }, [])
