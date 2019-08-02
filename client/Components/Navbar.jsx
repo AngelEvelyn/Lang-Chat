@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { Context } from '../Context';
@@ -6,10 +6,11 @@ import { Context } from '../Context';
 
 function Navbar({ setAuthModal }) {
   const { currentUser, dispatchCurrUser } = useContext(Context)
+  const userProfile = currentUser.userId ? '/profile/' + currentUser.userId : '/';
   return (
     <NavbarStyled>
       <NavLink to='/'><h3>Home</h3></NavLink>
-      <NavLink to='/profile'><h3>Profile</h3></NavLink>
+      <NavLink to={userProfile}><h3>Profile</h3></NavLink>
       {currentUser.username ? <img src="https://png.pngtree.com/svg/20160428/d5fa73439c.png" onClick={() => dispatchCurrUser({ type: 'SIGN_OUT' })} /> :
         <button onClick={() => setAuthModal(true)}><h3>Sign In / Sign Up</h3></button>}
     </NavbarStyled>
