@@ -7,6 +7,18 @@ const GET_ALL_LIMITED = 'SELECT id, username, email, picture_url, about_me FROM 
 // const GET_BY = 'SELECT * FROM "user" WHERE ';
 const DELETE_USER = 'UPDATE "user" SET is_deleted=TRUE WHERE id=$1 RETURNING id, username, email, picture_url, about_me';
 const GET_USER = 'SELECT id, username, token, email, picture_url, about_me FROM "user" WHERE is_deleted=FALSE AND username=$1';
+const GET_USER_WITH_LANGUAGES = `SELECT u.id, u.username, u.email, u.picture_url, u.about_me, ul.language_array
+  FROM "user" u
+  JOIN (
+    SELECT ul.user_id, json_agg('[' || la.label || ',' || le.label || ']') AS language_array
+    FROM "user_language" ul
+    JOIN "language" la ON la.id=ul.language_id
+    JOIN "level" le ON le.id=ul.level_id
+    GROUP BY ul.user_id
+  ) ul ON (ul.user_id = u.id)
+  WHERE u.is_deleted=FALSE AND u.id=$1
+;`;
+
 
 const model = {
   createUser({
@@ -67,6 +79,22 @@ const model = {
         const user = result.rows[0];
         const formattedUser = getFormattedUser(user);
         return resolve({ user: formattedUser, token: user.token });
+      });
+    });
+  },
+
+  getUserWithLanguagesByUserId(userId) {
+    return new Promise((resolve, reject) => {
+      const userIdAsNumber = parseInt(userId, 10);
+      console.log(typeof userIdAsNumber, userIdAsNumber);
+      if (typeof userIdAsNumber !== 'number' || userIdAsNumber < 1) return reject(new Error(`invalid userId: ${userIdAsNumber}`));
+      const params = [userIdAsNumber];
+
+      return pool.query(GET_USER_WITH_LANGUAGES, params, (error, result) => {
+        if (error) return reject(error);
+        const user = result.rows[0];
+        const formattedUser = toCamel(user);
+        return resolve({ user: formattedUser });
       });
     });
   },
