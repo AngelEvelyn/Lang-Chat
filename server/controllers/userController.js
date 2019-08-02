@@ -47,6 +47,18 @@ const userController = {
       return next(error);
     }
   },
+
+  async getUserWithLanguages(req, res, next) {
+    const { userId } = req.params;
+
+    try {
+      const user = await userModel.getUserWithLanguagesByUserId(userId);
+      res.locals.user = user;
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  },
 };
 
 function createToken(password) {
